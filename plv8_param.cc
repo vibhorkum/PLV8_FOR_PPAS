@@ -14,6 +14,7 @@
  */
 #if PG_VERSION_NUM >= 90000
 
+#define typeid __typeid
 extern "C" {
 
 #include "catalog/pg_type.h"
@@ -21,8 +22,7 @@ extern "C" {
 #include "utils/lsyscache.h"
 
 } // extern "C"
-
-
+#undef typeid
 /*
  * In the varparams case, the caller-supplied OID array (if any) can be
  * re-palloc'd larger at need.  A zero array entry means that parameter number

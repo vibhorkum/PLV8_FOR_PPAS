@@ -15,6 +15,7 @@
 #endif  // ENABLE_DEBUGGER_SUPPORT
 #include <vector>
 
+#define typeid __typeid
 extern "C" {
 #include "postgres.h"
 
@@ -24,6 +25,7 @@ extern "C" {
 #include "utils/tuplestore.h"
 #include "windowapi.h"
 }
+#undef typeid
 
 #ifdef _MSC_VER
 #define __attribute__(what)		__declspec what

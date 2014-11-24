@@ -1,6 +1,7 @@
 #ifndef _PLV8_PARAM_H_
 #define _PLV8_PARAM_H_
 
+#define typeid __typeid
 extern "C" {
 #include "postgres.h"
 
@@ -14,7 +15,7 @@ extern "C" {
 #endif	// PG_VERSION_NUM >= 90000
 
 } // extern "C"
-
+#undef typeid
 /*
  * In variable paramter case for SPI, the type information is filled by
  * the parser in paramTypes and numParams.  MemoryContext should be given

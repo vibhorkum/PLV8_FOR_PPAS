@@ -134,7 +134,7 @@ extern const unsigned char livescript_binary_data[];
  */
 static plv8_proc *plv8_get_proc(Oid fn_oid, FunctionCallInfo fcinfo,
 		bool validate, char ***argnames) throw();
-static void plv8_xact_cb(XactEvent event, void *arg);
+static void plv8_xact_cb(XactEvent event, void *arg, bool spl_context);
 
 /*
  * CamelCaseFunctions are C++ functions.
@@ -229,7 +229,7 @@ _PG_init(void)
 }
 
 static void
-plv8_xact_cb(XactEvent event, void *arg)
+plv8_xact_cb(XactEvent event, void *arg, bool spl_context)
 {
 	plv8_exec_env	   *env = exec_env_head;
 
