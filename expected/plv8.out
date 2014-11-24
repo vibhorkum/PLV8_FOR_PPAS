@@ -154,6 +154,7 @@ SELECT text_to_date('23 Dec 2010 GMT');
        text_to_date       
 --------------------------
  Thu Dec 23 00:00:00 2010
+(1 row)
 
 CREATE FUNCTION oidfn(id oid) RETURNS oid AS $$ return id $$ LANGUAGE plv8;
 SELECT oidfn('pg_catalog.pg_class'::regclass);
