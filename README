@@ -1,0 +1,112 @@
+A Procedural Language in JavaScript powered by V8
+=================================================
+
+plv8 is a shared library that provides a PostgreSQL procedural language powered
+by V8 JavaScript Engine.  With this program you can write in JavaScript your
+function that is callable from SQL.
+
+REQUIREMENT
+-----------
+
+plv8 is tested with:
+
+- PG: version 8.4, 9.0, 9.1, 9.2 and 9.3dev (maybe older are allowed)
+- V8: version 3.14.5
+- g++: version 4.5.1
+
+It is also known to work with some older versions of gcc and v8.
+
+Also all tools that PostgreSQL and V8 require to be built are required if you
+are building those from source.
+
+INSTALL
+-------
+
+There are two ways to build plv8.  The first is default `make`, which depends
+on system-installed libv8 and plv8 will be dynamically link to it.  The second
+is `make static`, which will download v8 soure at a specific version and build
+it, and statically link plv8 to it.  PGXN install will use the former, while
+you can do the latter manually if you have not installed v8 yet.
+
+Once you installed plv8 into your dabase, create language via
+
+  $ psql -c 'CREATE EXTENSION plv8'
+  $ psql -c 'CREATE EXTENSION plls'
+  $ psql -c 'CREATE EXTENSION plcoffee'
+
+in 9.1 or later, or in the prior versions
+
+  $ psql -f plv8.sql
+
+to create database objects.
+
+In mingw64, you may have difficulty in building plv8.  If so, try to make
+the following changes in Makefile.
+
+  CUSTOM_CC = gcc
+  SHLIB_LINK := $(SHLIB_LINK) -lv8 -Wl,-Bstatic -lstdc++ -Wl,-Bdynamic -lm
+
+For more detail, please refer to http://code.google.com/p/plv8js/issues/detail?id=29
+
+TEST
+----
+
+plv8 supports installcheck test.  Make sure set custom_variable_classes = 'plv8'
+in your postgresql.conf (before 9.2) and run
+
+  $ make installcheck
+
+EXAMPLE (JAVASCRIPT)
+--------------------
+
+  CREATE OR REPLACE FUNCTION plv8_test(keys text[], vals text[])
+  RETURNS text AS $$
+    var o = {};
+    for(var i=0; i<keys.length; i++){
+      o[keys[i]] = vals[i];
+    }
+    return JSON.stringify(o);
+  $$ LANGUAGE plv8 IMMUTABLE STRICT;
+  
+  SELECT plv8_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+           plv8_test        
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+EXAMPLE (COFFEESCRIPT)
+----------------------
+
+  CREATE OR REPLACE FUNCTION plcoffee_test(keys text[], vals text[])
+  RETURNS text AS $$
+    return JSON.stringify(keys.reduce(((o, key, idx) ->
+      o[key] = vals[idx]; return o), {}), {})
+  $$ LANGUAGE plcoffee IMMUTABLE STRICT;
+  
+  SELECT plcoffee_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+         plcoffee_test       
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+EXAMPLE (LIVESCRIPT)
+--------------------
+
+  CREATE OR REPLACE FUNCTION plls_test(keys text[], vals text[])
+  RETURNS text AS $$
+    return JSON.stringify { [key, vals[idx]] for key, idx in keys }
+  $$ LANGUAGE plls IMMUTABLE STRICT;
+  
+  SELECT plls_test(ARRAY['name', 'age'], ARRAY['Tom', '29']);
+           plls_test        
+  ---------------------------
+   {"name":"Tom","age":"29"}
+  (1 row)
+
+NOTES
+-----
+plv8 is hosted at Google Project Hosting
+http://code.google.com/p/plv8js/
+
+and distributed by PGXN.  For more detail, see
+http://pgxn.org/dist/plv8/doc/plv8.html
