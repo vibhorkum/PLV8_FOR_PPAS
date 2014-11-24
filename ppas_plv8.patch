@@ -177,12 +177,6 @@ index bf53521..fedeb73 100644
  /*
   * In variable paramter case for SPI, the type information is filled by
   * the parser in paramTypes and numParams.  MemoryContext should be given
-diff --git a/ppas_plv8.patch b/ppas_plv8.patch
-new file mode 100644
-index 0000000..2f86a1a
---- /dev/null
-+++ b/ppas_plv8.patch
-@@ -0,0 +1,179 @@
 +diff --git a/expected/plv8.out b/expected/plv8.out
 +index b1c16c9..68ab115 100644
 +--- a/expected/plv8.out
