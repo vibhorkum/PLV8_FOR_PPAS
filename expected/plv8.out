@@ -151,10 +151,9 @@ SELECT date_to_text('23 Dec 2010');
 
 CREATE FUNCTION text_to_date(t text) RETURNS date AS $$ return new Date(t) $$ LANGUAGE plv8;
 SELECT text_to_date('23 Dec 2010 GMT');
- text_to_date 
---------------
- 12-23-2010
-(1 row)
+       text_to_date       
+--------------------------
+ Thu Dec 23 00:00:00 2010
 
 CREATE FUNCTION oidfn(id oid) RETURNS oid AS $$ return id $$ LANGUAGE plv8;
 SELECT oidfn('pg_catalog.pg_class'::regclass);
@@ -384,10 +383,10 @@ $$
 $$
 LANGUAGE plv8;
 SELECT test_sql();
-NOTICE:  {"i":1,"s":"s1","c":["pg_catalog","public"]} 1
-NOTICE:  {"i":2,"s":"s2","c":["pg_catalog","public"]} 1
-NOTICE:  {"i":3,"s":"s3","c":["pg_catalog","public"]} 1
-NOTICE:  {"i":4,"s":"s4","c":["pg_catalog","public"]} 1
+NOTICE:  {"i":1,"s":"s1","c":["sys","dbo","public","pg_catalog"]} 1
+NOTICE:  {"i":2,"s":"s2","c":["sys","dbo","public","pg_catalog"]} 1
+NOTICE:  {"i":3,"s":"s3","c":["sys","dbo","public","pg_catalog"]} 1
+NOTICE:  {"i":4,"s":"s4","c":["sys","dbo","public","pg_catalog"]} 1
  test_sql 
 ----------
         4
