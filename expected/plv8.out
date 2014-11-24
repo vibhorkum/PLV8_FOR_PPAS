@@ -384,10 +384,10 @@ $$
 $$
 LANGUAGE plv8;
 SELECT test_sql();
-NOTICE:  {"i":1,"s":"s1","c":["sys","dbo","public","pg_catalog"]} 1
-NOTICE:  {"i":2,"s":"s2","c":["sys","dbo","public","pg_catalog"]} 1
-NOTICE:  {"i":3,"s":"s3","c":["sys","dbo","public","pg_catalog"]} 1
-NOTICE:  {"i":4,"s":"s4","c":["sys","dbo","public","pg_catalog"]} 1
+NOTICE:  {"i":1,"s":"s1","c":["sys","dbo","pg_catalog","public"]} 1
+NOTICE:  {"i":2,"s":"s2","c":["sys","dbo","pg_catalog","public"]} 1
+NOTICE:  {"i":3,"s":"s3","c":["sys","dbo","pg_catalog","public"]} 1
+NOTICE:  {"i":4,"s":"s4","c":["sys","dbo","pg_catalog","public"]} 1
  test_sql 
 ----------
         4
